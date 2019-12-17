@@ -1,0 +1,2 @@
+class PkpWaybillCargo < ApplicationRecord
+end

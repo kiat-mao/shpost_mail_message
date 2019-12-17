@@ -1,0 +1,2 @@
+class PkpWaybillPackage < ApplicationRecord
+end

@@ -1,0 +1,3 @@
+class StandardInterface
+  
+end

@@ -1,0 +1,2 @@
+class PkpWaybillScan < ApplicationRecord
+end

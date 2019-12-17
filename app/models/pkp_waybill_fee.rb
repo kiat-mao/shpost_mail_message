@@ -1,0 +1,2 @@
+class PkpWaybillFee < ApplicationRecord
+end

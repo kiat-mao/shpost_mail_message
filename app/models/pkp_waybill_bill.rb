@@ -1,0 +1,2 @@
+class PkpWaybillBill < ApplicationRecord
+end

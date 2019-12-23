@@ -34,7 +34,8 @@ class MailTraceController < ApplicationController
         yield
       end
     ensure
-      InterfaceInfo.log(params[:controller], params[:action], @status,{url: request.url, params: params.to_json, response: @response, ip: request.ip, business_code: @business_code, parent: @object}) if Rails.env.development?
+      # binding.pry
+      InterfaceLog.log(params[:controller], params[:action], @status,{request_url: request.url, params: params, response_body: @response, request_ip: request.ip, business_code: @business_code, parent: @object}) if Rails.env.development?
     end
   end
 
@@ -72,7 +73,7 @@ class MailTraceController < ApplicationController
 
   def verify_sign
     @date_digest = params[:dataDigest]
-    return error_builder('0008') if ! @sign.eql? data_digest(@msg_json, I18n.t('mail_trace_interface.secret_key'))
+    return error_builder('0008') if ! @date_digest.eql? data_digest(@msg_body, I18n.t('mail_trace_interface.secret_key'))
   end
 
   def data_digest(context, secret_key)
@@ -98,7 +99,7 @@ class MailTraceController < ApplicationController
   end
 
   def response_builder(reson = nil)
-    return {'receiveID' => @receive_id, 'responseState' => @status, 'responseItems' => [{'trace' => @mail_no, 'success' => @status, 'reson' => @reson}]}.to_json
+    return {'receiveID' => @receive_id, 'responseState' => @status, 'errorDesc' => @reson.blank? ? "" : @reson , 'responseItems' => [{'traceNo' => @business_code, 'success' => @status, 'reson' => @reson.blank? ? "" : @reson }]}.to_json
   end
 
   def out_error e

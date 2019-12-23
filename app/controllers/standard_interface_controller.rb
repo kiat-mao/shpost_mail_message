@@ -46,7 +46,7 @@ class StandardInterfaceController < ApplicationController
         yield
       end
     ensure
-      InterfaceInfo.log(params[:controller], params[:action], @unit, @business, @status, request.url, params.to_json, @return_json.to_json, request.ip, @business_code, @object) unless params[:action].eql?('mail_query')
+      InterfaceLog.log(params[:controller], params[:action], @unit, @business, @status, request.url, params.to_json, @return_json.to_json, request.ip, @business_code, @object) unless params[:action].eql?('mail_query')
     end
   end
 

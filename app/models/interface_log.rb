@@ -1,7 +1,7 @@
 class InterfaceLog < ApplicationRecord
-  belongs_to :unit
-  belongs_to :business
-  belongs_to :parent, polymorphic: true
+  # belongs_to :unit
+  # belongs_to :business
+  # belongs_to :parent, polymorphic: true
   STATUS = {success: 'success', failed: 'failed'}
   # STATUS_NAME = { success: '成功', failed: '失败' }
 
@@ -17,7 +17,7 @@ class InterfaceLog < ApplicationRecord
 
     # interface_log = InterfaceLog.find_by(controller_name: controller, action_name: action, unit: unit, business: business, status: 'failed', business_code: business_code) if (! status && ! business_code.blank?)
 
-    interface_log = Interfaceface.new(controller_name: controller_name, action_name: action_name, status: status)
+    interface_log = new(controller_name: controller_name, action_name: action_name, status: status)
 
     if ! args.first.blank? && args.first.is_a?(Hash)
       args.first.each_key do |key|
@@ -26,5 +26,7 @@ class InterfaceLog < ApplicationRecord
         end
       end
     end
+    # binding.pry
+    interface_log.save!
   end
 end

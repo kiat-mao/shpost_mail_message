@@ -80,3 +80,5 @@ gem "activerecord-oracle_enhanced-adapter"
 ############################
 
 gem 'bulk_insert'
+
+gem 'pry', :group => :development

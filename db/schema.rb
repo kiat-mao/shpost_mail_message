@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_17_060306) do
+ActiveRecord::Schema.define(version: 2019_12_19_061055) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2019_12_17_060306) do
     t.string "business_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "request_url"
   end
 
   create_table "interface_senders", force: :cascade do |t|

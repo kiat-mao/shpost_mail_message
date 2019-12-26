@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_061055) do
+ActiveRecord::Schema.define(version: 2019_12_26_061846) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "request_url"
+    t.string "created_day"
   end
 
   create_table "interface_senders", force: :cascade do |t|
@@ -59,6 +60,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.integer "business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
     t.index ["parent_id", "created_at", "status"], name: "index_interface_senders_on_parent_id_and_created_at_and_status", unique: true
   end
 
@@ -72,7 +74,9 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.datetime "last_received_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["mail_no", "status"], name: "index_mail_traces_on_mail_no_and_status", unique: true
+    t.string "created_day"
+    t.index ["mail_no"], name: "index_mail_traces_on_mail_no", unique: true
+    t.index ["status"], name: "index_mail_traces_on_status"
   end
 
   create_table "pkp_waybill_bases", force: :cascade do |t|
@@ -245,6 +249,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_bills", force: :cascade do |t|
@@ -281,6 +286,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_bizs", force: :cascade do |t|
@@ -407,6 +413,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_cargos", force: :cascade do |t|
@@ -460,6 +467,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_fees", force: :cascade do |t|
@@ -492,6 +500,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_mores", force: :cascade do |t|
@@ -535,6 +544,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_packages", force: :cascade do |t|
@@ -570,6 +580,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_payments", force: :cascade do |t|
@@ -607,6 +618,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
   create_table "pkp_waybill_scans", force: :cascade do |t|
@@ -697,6 +709,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_061055) do
     t.text "reserved10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_day"
   end
 
 end

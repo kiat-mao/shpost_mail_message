@@ -16,7 +16,7 @@ class MailTrace < ApplicationRecord
 
       if !mail_trace.blank?
         if mail_trace.last_received_at >= received_at #In SQLITE3 May be not,cuz it will save datetime with del last precision
-          return mail
+          return mail_trace
         else
           last_result = get_result_with_status(traces)
 

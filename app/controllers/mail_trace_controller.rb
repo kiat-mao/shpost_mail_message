@@ -35,7 +35,7 @@ class MailTraceController < ApplicationController
       end
     ensure
       # binding.pry
-      InterfaceLog.log(params[:controller], params[:action], @status,{request_url: request.url, params: params, response_body: @response, request_ip: request.ip, business_code: @business_code, parent: @object}) if Rails.env.development?
+      InterfaceLog.log(params[:controller], params[:action], @status,{request_url: request.url, params: params.to_json, response_body: @response, request_ip: request.ip, business_code: @business_code, parent: @object, error_msg: @error_msg}) if Rails.env.development?
     end
   end
 
@@ -104,8 +104,12 @@ class MailTraceController < ApplicationController
 
   def out_error e
     # puts e.message
-    # puts e.backtrace 
+    # puts e.backtrace
+    @error_msg = "#{e.class.name} #{e.message}"
     Rails.logger.error("#{e.class.name} #{e.message}")
-    e.backtrace.each{|x| Rails.logger.error(x)}
+    e.backtrace.each do |x|
+       @error_msg += "\n#{x}"
+      Rails.logger.error(x)
+    end
   end
 end

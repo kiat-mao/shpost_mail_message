@@ -20,7 +20,10 @@ class MailTrace < ApplicationRecord
         else
           last_result = get_result_with_status(traces)
 
-          mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], traces: msg_hash.to_json, last_received_at: received_at)
+          mail_trace_traces = ActiveSupport::JSON.decode(mail_trace.traces)
+          mail_trace_traces["traces"] = mail_trace_traces["traces"] + traces
+
+          mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], traces: mail_trace_traces.to_json, last_received_at: received_at)
         end
       else
         last_result = get_result_with_status(traces)

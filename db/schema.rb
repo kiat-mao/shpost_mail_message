@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_26_061846) do
+ActiveRecord::Schema.define(version: 2020_03_25_053651) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_12_26_061846) do
     t.datetime "updated_at", null: false
     t.string "request_url"
     t.string "created_day"
+    t.text "error_msg"
   end
 
   create_table "interface_senders", force: :cascade do |t|
@@ -61,7 +62,18 @@ ActiveRecord::Schema.define(version: 2019_12_26_061846) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.index ["parent_id", "created_at", "status"], name: "index_interface_senders_on_parent_id_and_created_at_and_status", unique: true
+    t.index ["created_at"], name: "index_interface_senders_on_created_at"
+    t.index ["parent_id"], name: "index_interface_senders_on_parent_id"
+    t.index ["status"], name: "index_interface_senders_on_status"
+  end
+
+  create_table "mail_trace_details", force: :cascade do |t|
+    t.integer "mail_trace_id"
+    t.string "traces", limit: 4000
+    t.string "created_day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mail_trace_id"], name: "index_mail_trace_details_on_mail_trace_id"
   end
 
   create_table "mail_traces", force: :cascade do |t|
@@ -250,6 +262,7 @@ ActiveRecord::Schema.define(version: 2019_12_26_061846) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.index ["sender_no"], name: "index_pkp_waybill_bases_on_sender_no"
   end
 
   create_table "pkp_waybill_bills", force: :cascade do |t|

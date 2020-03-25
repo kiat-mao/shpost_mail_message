@@ -1,4 +1,5 @@
 class MailTrace < ApplicationRecord
+  has_many :mail_trace_details
   # validates_presence_of :mail_no, :message => '不能为空'
   # validates_uniqueness_of :mail_no, :message => '该挂号编号已存在'
 
@@ -20,15 +21,17 @@ class MailTrace < ApplicationRecord
         else
           last_result = get_result_with_status(traces)
 
-          mail_trace_traces = ActiveSupport::JSON.decode(mail_trace.traces)
-          mail_trace_traces["traces"] = mail_trace_traces["traces"] + traces
+          # mail_trace_traces = ActiveSupport::JSON.decode(mail_trace.traces)
+          #mail_trace_traces["traces"] = mail_trace_traces["traces"] + traces
 
-          mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], traces: mail_trace_traces.to_json, last_received_at: received_at)
+          mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
+          mail_trace.mail_trace_details.create!(traces: traces)
         end
       else
         last_result = get_result_with_status(traces)
 
-        create!(mail_no: mail_no, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], traces: msg_hash.to_json, last_received_at: received_at)
+        mail_trace = MailTrace.create!(mail_no: mail_no, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
+        mail_trace.mail_trace_details.create!(traces: traces)
       end
     end
   end

@@ -25,13 +25,13 @@ class MailTrace < ApplicationRecord
           #mail_trace_traces["traces"] = mail_trace_traces["traces"] + traces
 
           mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
-          mail_trace.mail_trace_details.create!(traces: traces)
+          mail_trace.mail_trace_details.create!(traces: traces.to_json)
         end
       else
         last_result = get_result_with_status(traces)
 
         mail_trace = MailTrace.create!(mail_no: mail_no, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
-        mail_trace.mail_trace_details.create!(traces: traces)
+        mail_trace.mail_trace_details.create!(traces: traces.to_json)
       end
     end
   end

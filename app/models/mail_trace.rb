@@ -21,6 +21,8 @@ class MailTrace < ApplicationRecord
         if mail_trace.last_received_at > received_at #In SQLITE3 May be not,cuz it will save datetime with del last precision
           return mail_trace
         else
+          to_update = false
+          
           last_result = get_result_with_status(traces)
           if mail_trace.status.eql? STATUS[:waiting]
             to_update = true if last_result["opt_at"].to_time >= mail_trace.operated_at
@@ -32,6 +34,8 @@ class MailTrace < ApplicationRecord
 
           if to_update
             mail_trace.update!(status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
+          else
+            mail_trace.update!(last_received_at: received_at)
           end
           mail_trace.mail_trace_details.create!(traces: traces.to_json)
         end

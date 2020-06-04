@@ -22,7 +22,6 @@ class CreatePkpWaybillBases < ActiveRecord::Migration[5.2]
         t.string :waybill_type #单据类型: 0常规运单 1退件运单
         t.string :waybill_no #运单号
         t.string :pre_waybill_no #标识 上游客户的单据号，或者返单业务对应的正向邮件号
-        t.string :biz_occur_date #业务发生时间（分表），预告信息接入代表接入时间，PDA揽收代表揽收时间，收寄作业代表收寄时间，运单调整代表申请调整时间。
         t.datetime :biz_occur_date #业务发生时间（分表），预告信息接入代表接入时间，PDA揽收代表揽收时间，收寄作业代表收寄时间，运单调整代表申请调整时间。
         t.integer :post_org_id #收寄机构编号
         t.string :post_org_no #收寄机构代码

@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_053651) do
+ActiveRecord::Schema.define(version: 2020_05_27_013333) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.string "request_url"
     t.string "created_day"
     t.text "error_msg"
+    t.string "created_month"
+    t.string "created_year"
   end
 
   create_table "interface_senders", force: :cascade do |t|
@@ -62,6 +64,8 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
     t.index ["created_at"], name: "index_interface_senders_on_created_at"
     t.index ["parent_id"], name: "index_interface_senders_on_parent_id"
     t.index ["status"], name: "index_interface_senders_on_status"
@@ -73,6 +77,8 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.string "created_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_month"
+    t.string "created_year"
     t.index ["mail_trace_id"], name: "index_mail_trace_details_on_mail_trace_id"
   end
 
@@ -87,6 +93,8 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
     t.index ["mail_no"], name: "index_mail_traces_on_mail_no", unique: true
     t.index ["status"], name: "index_mail_traces_on_status"
   end
@@ -262,7 +270,10 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
     t.index ["sender_no"], name: "index_pkp_waybill_bases_on_sender_no"
+    t.index ["waybill_no"], name: "index_pkp_waybill_bases_on_waybill_no"
   end
 
   create_table "pkp_waybill_bills", force: :cascade do |t|
@@ -300,6 +311,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_bills_on_waybill_no"
   end
 
   create_table "pkp_waybill_bizs", force: :cascade do |t|
@@ -427,6 +441,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_bizs_on_waybill_no"
   end
 
   create_table "pkp_waybill_cargos", force: :cascade do |t|
@@ -481,6 +498,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_cargos_on_waybill_no"
   end
 
   create_table "pkp_waybill_fees", force: :cascade do |t|
@@ -514,6 +534,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_fees_on_waybill_no"
   end
 
   create_table "pkp_waybill_mores", force: :cascade do |t|
@@ -558,6 +581,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_mores_on_waybill_no"
   end
 
   create_table "pkp_waybill_packages", force: :cascade do |t|
@@ -594,6 +620,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_packages_on_waybill_no"
   end
 
   create_table "pkp_waybill_payments", force: :cascade do |t|
@@ -632,6 +661,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_payments_on_waybill_no"
   end
 
   create_table "pkp_waybill_scans", force: :cascade do |t|
@@ -723,6 +755,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_053651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
+    t.string "created_month"
+    t.string "created_year"
+    t.index ["waybill_no"], name: "index_pkp_waybill_scans_on_waybill_no"
   end
 
 end

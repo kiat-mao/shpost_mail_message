@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_013333) do
+ActiveRecord::Schema.define(version: 2020_06_29_064439) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -32,8 +32,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.string "request_url"
     t.string "created_day"
     t.text "error_msg"
-    t.string "created_month"
-    t.string "created_year"
+    t.index ["business_code"], name: "index_interface_logs_on_business_code"
   end
 
   create_table "interface_senders", force: :cascade do |t|
@@ -64,8 +63,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
     t.index ["created_at"], name: "index_interface_senders_on_created_at"
     t.index ["parent_id"], name: "index_interface_senders_on_parent_id"
     t.index ["status"], name: "index_interface_senders_on_status"
@@ -77,8 +74,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.string "created_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["mail_trace_id"], name: "index_mail_trace_details_on_mail_trace_id"
   end
 
@@ -93,8 +89,8 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
+    t.string "last_trace"
     t.index ["mail_no"], name: "index_mail_traces_on_mail_no", unique: true
     t.index ["status"], name: "index_mail_traces_on_status"
   end
@@ -270,8 +266,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["sender_no"], name: "index_pkp_waybill_bases_on_sender_no"
     t.index ["waybill_no"], name: "index_pkp_waybill_bases_on_waybill_no"
   end
@@ -311,8 +306,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_bills_on_waybill_no"
   end
 
@@ -441,8 +435,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_bizs_on_waybill_no"
   end
 
@@ -498,8 +491,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_cargos_on_waybill_no"
   end
 
@@ -534,8 +526,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_fees_on_waybill_no"
   end
 
@@ -581,8 +572,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_mores_on_waybill_no"
   end
 
@@ -620,8 +610,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_packages_on_waybill_no"
   end
 
@@ -661,8 +650,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_payments_on_waybill_no"
   end
 
@@ -755,8 +743,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_013333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "created_day"
-    t.string "created_month"
-    t.string "created_year"
+    t.string "created_date"
     t.index ["waybill_no"], name: "index_pkp_waybill_scans_on_waybill_no"
   end
 

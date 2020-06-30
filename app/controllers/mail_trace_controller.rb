@@ -11,6 +11,7 @@ class MailTraceController < ApplicationController
 
     begin
       mail = MailTrace.save_mail_trace(@msg_hash, @send_date)
+      # WaterDrop::SyncProducer.call(@msg_json, topic: mail_trace)
     rescue Exception => e
       if ! e.is_a? RuntimeError
         out_error e

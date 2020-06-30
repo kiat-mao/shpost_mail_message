@@ -85,7 +85,7 @@ gem 'pry', :group => :development
 
 #gem 'ruby-kafka'
 
-#gem 'waterdrop'
+gem 'waterdrop'
 
 gem 'karafka', '~> 1.3', '>= 1.3.5'
 

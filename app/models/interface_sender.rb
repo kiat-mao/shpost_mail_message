@@ -1,2 +1,0 @@
-class InterfaceSender < ApplicationRecord
-end

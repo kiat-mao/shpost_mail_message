@@ -64,6 +64,7 @@ class MailTraceController < ApplicationController
 
     begin
       @msg_json = URI.decode(@msg_body)
+      @business_code = trace['traceNo']
       @msg_hash = ActiveSupport::JSON.decode(@msg_json)
     rescue Exception => e
       return error_builder('0007')

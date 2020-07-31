@@ -17,36 +17,42 @@ class MailTrace < ApplicationRecord
     
       ActiveRecord::Base.transaction do
         # traces = msg_hash['traces']
+        begin
+          mail_trace = MailTrace.find_by(mail_no: mail_no)
 
-        mail_trace = MailTrace.find_by(mail_no: mail_no)
-
-        if !mail_trace.blank?
-          if mail_trace.last_received_at > received_at #In SQLITE3 May be not,cuz it will save datetime with del last precision
-            return mail_trace
-          else
-            to_update = false
-            
-            last_result = get_result_with_status(traces)
-            if mail_trace.status.eql? STATUS[:waiting]
-              to_update = true if last_result["opt_at"].to_time >= mail_trace.operated_at
-            elsif mail_trace.status.eql? STATUS[:returns]
+          if !mail_trace.blank?
+            if mail_trace.last_received_at > received_at #In SQLITE3 May be not,cuz it will save datetime with del last precision
+              return mail_trace
+            else
               to_update = false
-            else
-              to_update = true if ! last_result["status"].eql? STATUS[:waiting]
-            end
+              
+              last_result = get_result_with_status(traces)
+              if mail_trace.status.eql? STATUS[:waiting]
+                to_update = true if last_result["opt_at"].to_time >= mail_trace.operated_at
+              elsif mail_trace.status.eql? STATUS[:returns]
+                to_update = false
+              else
+                to_update = true if ! last_result["status"].eql? STATUS[:waiting]
+              end
 
-            if to_update
-              mail_trace.update!(last_trace: traces.last.to_json, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
-            else
-              mail_trace.update!(last_received_at: received_at)
+              if to_update
+                mail_trace.update!(last_trace: traces.last.to_json, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
+              else
+                mail_trace.update!(last_received_at: received_at)
+              end
+              mail_trace.mail_trace_details.create!(traces: traces.to_json)
             end
+          else
+            last_result = get_result_with_status(traces)
+
+            mail_trace = MailTrace.create!(mail_no: mail_no, last_trace: traces.last.to_json, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
+
             mail_trace.mail_trace_details.create!(traces: traces.to_json)
           end
-        else
-          last_result = get_result_with_status(traces)
-
-          mail_trace = MailTrace.create!(mail_no: mail_no, last_trace: traces.last.to_json, status: last_result["status"], result: last_result["opt_desc"], operated_at: last_result["opt_at"], is_posting: last_result["is_posting"], last_received_at: received_at)
-          mail_trace.mail_trace_details.create!(traces: traces.to_json)
+        rescue ActiveRecord::RecordNotUnique => e
+          Rails.logger.error("create mail_trace unique_error: #{msg_hash}, and will be retry")
+          Rails.logger.error("#{e.class.name} #{e.message}")
+          retry
         end
       end
     end

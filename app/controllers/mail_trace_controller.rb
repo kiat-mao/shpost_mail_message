@@ -13,9 +13,9 @@ class MailTraceController < ApplicationController
       mail = MailTrace.save_mail_trace(@msg_hash, @send_date)
       # WaterDrop::SyncProducer.call(@msg_json, topic: mail_trace)
     rescue Exception => e
-      if ! e.is_a? RuntimeError
-        out_error e
-      end
+      # if ! e.is_a? RuntimeError
+      out_error e
+      # end
       return error_builder('9999')
     end
 
@@ -64,7 +64,6 @@ class MailTraceController < ApplicationController
 
     begin
       @msg_json = URI.decode(@msg_body)
-      @business_code = trace['traceNo']
       @msg_hash = ActiveSupport::JSON.decode(@msg_json)
     rescue Exception => e
       return error_builder('0007')
@@ -96,6 +95,8 @@ class MailTraceController < ApplicationController
     @reson = I18n.t("mail_trace_interface.error.#{error_code}")
 
     @response = response_builder
+
+    Rails.logger @response
 
     render json: @response
   end

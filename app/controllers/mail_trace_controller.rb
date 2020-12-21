@@ -11,7 +11,13 @@ class MailTraceController < ApplicationController
 
     begin
       mail = MailTrace.save_mail_trace(@msg_hash, @send_date)
-      # WaterDrop::SyncProducer.call(@msg_json, topic: mail_trace)
+
+      begin
+        MailTrace.mail_trace_kafka(@msg_json)
+      rescue Exception => ke
+        Rails.logger.error "Kafka Error:"
+        out_error ke
+      end
     rescue Exception => e
       # if ! e.is_a? RuntimeError
       out_error e
@@ -61,9 +67,10 @@ class MailTraceController < ApplicationController
 
 
     @msg_body = params[:msgBody]
+    @encode_msg_body = @msg_body.encode('GBK', invalid: :replace, undef: :replace, replace: '?').encode('UTF-8')
 
     begin
-      @msg_json = URI.decode(@msg_body)
+      @msg_json = URI.decode(@encode_msg_body)
       @msg_hash = ActiveSupport::JSON.decode(@msg_json)
     rescue Exception => e
       return error_builder('0007')

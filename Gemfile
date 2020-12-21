@@ -61,7 +61,8 @@ gem "activerecord-oracle_enhanced-adapter"
 ############################
 
 ########Kafka##############
-gem 'waterdrop'
-
-gem 'karafka', '~> 1.3', '>= 1.3.5'
+# gem 'waterdrop', '~> 2.0.0.rc1'
+gem 'waterdrop', '~> 1.4.0'
+# gem 'karafka', '~> 1.4'
+# gem 'karafka', '~> 1.3', '>= 1.3.6'
 ############################

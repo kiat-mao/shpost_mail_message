@@ -58,6 +58,13 @@ class MailTrace < ApplicationRecord
     end
   end
 
+  def self.mail_trace_kafka(msg_hash)
+    WaterDrop.setup do |config|
+      config.kafka.seed_brokers = %w[kafka://localhost:9092]
+      config.logger = Rails.logger
+    end
+    WaterDrop::SyncProducer.call(msg_hash, topic: 'mial_trace_test')
+  end
 
   def self.get_result_with_status(traces)
     delivered_code = ['704', '748', '747']

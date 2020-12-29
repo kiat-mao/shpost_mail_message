@@ -14,7 +14,8 @@ class MailTrace < ApplicationRecord
 
     mail_nos.each do |mail_no|
       traces = msg_hash['traces'].reject{|x| ! x['traceNo'].eql? mail_no}.sort{|x,y| x['opTime'] <=> y['opTime']}
-    
+      
+      
       ActiveRecord::Base.transaction do
         # traces = msg_hash['traces']
         begin
@@ -58,12 +59,31 @@ class MailTrace < ApplicationRecord
     end
   end
 
-  def self.mail_trace_kafka(msg_hash)
-    WaterDrop.setup do |config|
-      config.kafka.seed_brokers = %w[kafka://localhost:9092]
-      config.logger = Rails.logger
+  def self.mail_traces_producer(msg_hash)
+    mail_nos = msg_hash['traces'].map{|x| x['traceNo']}.uniq
+
+    mail_nos.each do |mail_no|
+      traces = msg_hash['traces'].reject{|x| ! x['traceNo'].eql? mail_no}.sort{|x,y| x['opTime'] <=> y['opTime']}
+      
+      self.mail_trace_producer(traces, mail_no)
     end
-    WaterDrop::SyncProducer.call(msg_hash, topic: 'mial_trace_test')
+  end
+
+  def self.mail_trace_producer(msg_hash, key = nil)
+    begin
+      WaterDrop.setup do |config|
+        config.kafka.seed_brokers = %w[kafka://localhost:9092]
+        config.logger = Rails.logger
+      end
+      if key.blank?
+        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: 'mail_trace_with_key')
+      else
+        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: 'mail_trace_with_key', key: key)
+      end
+    rescue Exception => e
+        Rails.logger.error "Kafka Error: #{e}"
+        Rails.logger.error(e.backtrace)
+    end
   end
 
   def self.get_result_with_status(traces)

@@ -10,14 +10,17 @@ class MailTraceController < ApplicationController
     @business_code = trace['traceNo']
 
     begin
-      mail = MailTrace.save_mail_trace(@msg_hash, @send_date)
+      # mail = MailTrace.save_mail_trace(@msg_hash, @send_date)
 
-      begin
-        MailTrace.mail_trace_kafka(@msg_json)
-      rescue Exception => ke
-        Rails.logger.error "Kafka Error:"
-        out_error ke
-      end
+
+      MailTrace.mail_traces_producer(@msg_hash)
+
+      # begin
+      #   MailTrace.mail_trace_kafka(@msg_json)
+      # rescue Exception => ke
+      #   Rails.logger.error "Kafka Error:"
+      #   out_error ke
+      # end
     rescue Exception => e
       # if ! e.is_a? RuntimeError
       out_error e
@@ -25,12 +28,12 @@ class MailTraceController < ApplicationController
       return error_builder('9999')
     end
 
-    if ! mail.blank?
-      @object = mail
-      return success_builder
-    else
-      return error_builder('9999')
-    end
+    # if ! mail.blank?
+    #   @object = mail
+    return success_builder
+    # else
+    #   return error_builder('9999')
+    # end
   end
 
   private
@@ -103,7 +106,7 @@ class MailTraceController < ApplicationController
 
     @response = response_builder
 
-    Rails.logger @response
+    Rails.logger.error @response
 
     render json: @response
   end

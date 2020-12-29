@@ -1,0 +1,4 @@
+zh-CN:
+  kafka:
+    broker: kafka://localhost:9092
+    topic: mailtraceproduction

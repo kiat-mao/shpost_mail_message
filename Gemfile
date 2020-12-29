@@ -66,3 +66,4 @@ gem 'waterdrop', '~> 1.4.0'
 # gem 'karafka', '~> 1.4'
 # gem 'karafka', '~> 1.3', '>= 1.3.6'
 ############################
+gem 'request-log-analyzer'

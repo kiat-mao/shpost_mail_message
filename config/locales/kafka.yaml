@@ -1,4 +1,6 @@
 zh-CN:
   kafka:
-    broker: kafka://localhost:9092
+    brokers: 
+      - kafka://10.126.16.138:9092
+      - kafka://10.126.16.139:9092
     topic: mailtraceproduction

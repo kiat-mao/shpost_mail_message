@@ -72,13 +72,13 @@ class MailTrace < ApplicationRecord
   def self.mail_trace_producer(msg_hash, key = nil)
     begin
       WaterDrop.setup do |config|
-        config.kafka.seed_brokers = %w[kafka://localhost:9092]
+        config.kafka.seed_brokers = I18n.t("kafka.brokers")
         config.logger = Rails.logger
       end
       if key.blank?
-        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: 'mail_trace_with_key')
+        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: I18n.t("kafka.topic"))
       else
-        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: 'mail_trace_with_key', key: key)
+        WaterDrop::SyncProducer.call(msg_hash.to_json, topic: I18n.t("kafka.topic"), key: key)
       end
     rescue Exception => e
         Rails.logger.error "Kafka Error: #{e}"

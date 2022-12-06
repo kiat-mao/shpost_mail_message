@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_21_053508) do
+ActiveRecord::Schema.define(version: 2022_12_01_072614) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"

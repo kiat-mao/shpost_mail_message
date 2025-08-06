@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_21_013347) do
+ActiveRecord::Schema.define(version: 2025_08_05_081752) do
 
   create_table "interface_logs", force: :cascade do |t|
     t.string "controller_name"
@@ -517,6 +517,11 @@ ActiveRecord::Schema.define(version: 2025_07_21_013347) do
     t.string "status", default: "waiting"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "biz_occur_date"
+    t.datetime "handled_at", precision: 6
+    t.datetime "delivered_at", precision: 6
+    t.index ["delivered_at"], name: "index_pkp_waybill_deliveries_on_delivered_at"
+    t.index ["waybill_no"], name: "index_pkp_waybill_deliveries_on_waybill_no"
   end
 
   create_table "pkp_waybill_fees", force: :cascade do |t|
